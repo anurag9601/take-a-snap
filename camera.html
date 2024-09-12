@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Take a snap</title>
+    <script type="text/javascript" src="https://unpkg.com/webcam-easy/dist/webcam-easy.min.js"></script>
+    <style>
+        a{
+            padding: 10px 30px;
+            background-color: bisque;
+            color: #000;
+            text-decoration: none;
+            border: 1px solid;
+            cursor: pointer;
+        }
+
+        button{
+            padding: 12px 30px;
+            background-color: bisque;
+            color: #000;
+            text-decoration: none;
+            border: 1px solid;
+            cursor: pointer;
+        }
+
+        canvas{
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <video id="webCam" autoplay playsinline width="600" height="500"></video>
+    <canvas id="canvas"></canvas>
+    <button onclick="startWebcam()">Start</button>
+    <a download onclick="takeAPicture()">Take a Snap</a>
+    <button onclick="closeWebcam()">Close</button>
+    <h1>Click start button for starting the webcam</h1>
+    <script>
+        const webCamElement = document.getElementById("webCam");
+        const canvasElement = document.getElementById("canvas");
+        const webCam = new Webcam(webCamElement, "user", canvasElement);
+        let webCamStart = false;
+        function startWebcam(){
+            webCam.start();
+            document.querySelector("h1").innerHTML = "";
+            webCamStart = true;
+        }
+
+        function takeAPicture(){
+            if(webCamStart == true){
+                const picture = webCam.snap();
+                document.querySelector("a").href = picture;
+            }else{
+                alert("Turn on the webcam by clicking start button")
+            }
+        }
+
+        function closeWebcam(){
+            webCam.stop();
+            document.querySelector("h1").innerHTML = "Click start button for starting the webcam"
+            webCamStart = false
+        }
+    </script>
+</body>
+</html>
